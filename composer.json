@@ -1,0 +1,29 @@
+{
+    "name": "monsieurbon/json-serializer",
+    "description": "A lightweight PHP JSON serializer",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Fabian Gut",
+            "email": "fabian.gut@ethy.ch"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "PJS\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "PJS\\Tests\\": "tests/"
+        }
+    },
+    "require": {
+        "ext-yaml": "*",
+        "ext-json": "*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^7.4"
+    }
+}

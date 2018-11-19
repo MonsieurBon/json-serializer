@@ -1,0 +1,10 @@
+PJS\Tests\Objects\TestObject:
+  arrayProperty: 'array'
+  booleanProperty: 'boolean'
+  dateProperty:
+    type: 'date'
+    dateFormat: 'Y-m-d\TH:i:s\Z'
+  floatProperty: 'float'
+  integerProperty: 'integer'
+  stringProperty: 'string'
+  nestedObject: 'PJS\Tests\Objects\NestedObject'
