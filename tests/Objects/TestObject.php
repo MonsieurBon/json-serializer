@@ -50,11 +50,27 @@ class TestObject
     }
 
     /**
+     * @param array $arrayProperty
+     */
+    public function setArrayProperty(array $arrayProperty): void
+    {
+        $this->arrayProperty = $arrayProperty;
+    }
+
+    /**
      * @return bool|null
      */
     public function getBooleanProperty()
     {
         return $this->booleanProperty;
+    }
+
+    /**
+     * @param bool $booleanProperty
+     */
+    public function setBooleanProperty(bool $booleanProperty): void
+    {
+        $this->booleanProperty = $booleanProperty;
     }
 
     /**
@@ -66,11 +82,27 @@ class TestObject
     }
 
     /**
+     * @param \DateTime $dateProperty
+     */
+    public function setDateProperty(\DateTime $dateProperty): void
+    {
+        $this->dateProperty = $dateProperty;
+    }
+
+    /**
      * @return float
      */
     public function getFloatProperty()
     {
         return $this->floatProperty;
+    }
+
+    /**
+     * @param float $floatProperty
+     */
+    public function setFloatProperty(float $floatProperty): void
+    {
+        $this->floatProperty = $floatProperty;
     }
 
     /**
@@ -82,6 +114,14 @@ class TestObject
     }
 
     /**
+     * @param int $integerProperty
+     */
+    public function setIntegerProperty(int $integerProperty): void
+    {
+        $this->integerProperty = $integerProperty;
+    }
+
+    /**
      * @return string|null
      */
     public function getStringProperty()
@@ -90,10 +130,26 @@ class TestObject
     }
 
     /**
+     * @param string $stringProperty
+     */
+    public function setStringProperty(string $stringProperty): void
+    {
+        $this->stringProperty = $stringProperty;
+    }
+
+    /**
      * @return NestedObject|null
      */
     public function getNestedObject()
     {
         return $this->nestedObject;
+    }
+
+    /**
+     * @param NestedObject $nestedObject
+     */
+    public function setNestedObject(NestedObject $nestedObject): void
+    {
+        $this->nestedObject = $nestedObject;
     }
 }

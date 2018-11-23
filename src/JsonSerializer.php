@@ -5,16 +5,12 @@ namespace PJS;
 
 
 use PJS\Exception\DeserializingException;
+use PJS\Exception\SerializingException;
 use PJS\Json\Deserializer;
+use PJS\Json\Serializer;
 
 class JsonSerializer
 {
-
-    const DEFAULT_CONFIG = array(
-        'type' => null,
-        'dateFormat' => 'd-m-Y H:i:s\Z'
-    );
-
     private $configuration = array();
 
     /**
@@ -36,5 +32,16 @@ class JsonSerializer
     {
         $deserializer = new Deserializer($this->configuration);
         return $deserializer->deserialize($json, $class);
+    }
+
+    /**
+     * @param $object
+     * @return false|null|string
+     * @throws SerializingException
+     */
+    public function serialize($object)
+    {
+        $serializer = new Serializer($this->configuration);
+        return $serializer->serialize($object);
     }
 }

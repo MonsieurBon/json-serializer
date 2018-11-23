@@ -10,17 +10,14 @@ namespace PJS\Json;
 
 
 use PJS\Exception\DeserializingException;
-use PJS\JsonSerializer;
 
-class Deserializer
+class Deserializer extends SerializerBase
 {
     private const INVALID_VALUE_FOR_PROPERTY_OF_TYPE = 'Invalid value for property of type';
 
-    private $configuration;
-
     public function __construct($configuration = array())
     {
-        $this->configuration = $configuration;
+        parent::__construct($configuration);
     }
 
     /**
@@ -69,14 +66,12 @@ class Deserializer
      */
     private function arrayToObject($dataArray, string $class)
     {
-        $objectConfig = $this->configuration[$class] ?? array();
-
         $reflection = new \ReflectionClass($class);
         $object = $reflection->newInstanceWithoutConstructor();
 
         foreach ($dataArray as $propertyName => $value) {
-            $propertyConfig = $this->getPropertyConfig($objectConfig, $propertyName);
-            $propertyType = $propertyConfig['type'];
+            $propertyConfig = $this->getPropertyConfig($class, $propertyName);
+            $propertyType = $propertyConfig[self::TYPE];
 
             switch ($propertyType) {
                 case null:
@@ -89,7 +84,7 @@ class Deserializer
                     $sanitizedValue = $this->getBooleanValue($value);
                     break;
                 case 'date':
-                    $format = $propertyConfig['dateFormat'];
+                    $format = $propertyConfig[self::DATE_FORMAT];
                     $sanitizedValue = $this->getDateValue($value, $format);
                     break;
                 case 'float':
@@ -202,26 +197,5 @@ class Deserializer
         $property = $reflection->getProperty($name);
         $property->setAccessible(true);
         $property->setValue($object, $sanitizedValue);
-    }
-
-    /**
-     * @param $objectConfig
-     * @param $propertyName
-     * @return array
-     */
-    private function getPropertyConfig($objectConfig, $propertyName): array
-    {
-        $mergedPropertyConfig = JsonSerializer::DEFAULT_CONFIG;
-
-        $propertyConfig = $objectConfig[$propertyName] ?? null;
-        if (is_array($propertyConfig)) {
-            foreach($propertyConfig as $configName => $configValue) {
-                $mergedPropertyConfig[$configName] = $configValue;
-            }
-        } else {
-            $mergedPropertyConfig['type'] = $propertyConfig;
-        }
-
-        return $mergedPropertyConfig;
     }
 }

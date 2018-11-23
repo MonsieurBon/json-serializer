@@ -7,16 +7,6 @@ namespace PJS\Tests\Objects;
 class NestedObject
 {
     /**
-     * @var string
-     */
-    private $stringProperty;
-
-    /**
-     * @var integer
-     */
-    private $integerProperty;
-
-    /**
      * @var boolean
      */
     private $booleanProperty;
@@ -27,11 +17,45 @@ class NestedObject
     private $dateProperty;
 
     /**
-     * @return string|null
+     * @var integer
      */
-    public function getStringProperty()
+    private $integerProperty;
+
+    /**
+     * @var string
+     */
+    private $stringProperty;
+
+    /**
+     * @return bool|null
+     */
+    public function getBooleanProperty()
     {
-        return $this->stringProperty;
+        return $this->booleanProperty;
+    }
+
+    /**
+     * @param bool $booleanProperty
+     */
+    public function setBooleanProperty(bool $booleanProperty): void
+    {
+        $this->booleanProperty = $booleanProperty;
+    }
+
+    /**
+     * @return \DateTime|null
+     */
+    public function getDateProperty()
+    {
+        return $this->dateProperty;
+    }
+
+    /**
+     * @param \DateTime $dateProperty
+     */
+    public function setDateProperty(\DateTime $dateProperty): void
+    {
+        $this->dateProperty = $dateProperty;
     }
 
     /**
@@ -43,20 +67,26 @@ class NestedObject
     }
 
     /**
-     * @return bool|null
+     * @param int $integerProperty
      */
-    public function getBooleanProperty()
+    public function setIntegerProperty(int $integerProperty): void
     {
-        return $this->booleanProperty;
+        $this->integerProperty = $integerProperty;
     }
 
     /**
-     * @return \DateTime|null
+     * @return string|null
      */
-    public function getDateProperty()
+    public function getStringProperty()
     {
-        return $this->dateProperty;
+        return $this->stringProperty;
     }
 
-
+    /**
+     * @param string $stringProperty
+     */
+    public function setStringProperty(string $stringProperty): void
+    {
+        $this->stringProperty = $stringProperty;
+    }
 }
