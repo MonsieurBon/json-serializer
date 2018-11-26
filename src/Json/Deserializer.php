@@ -139,11 +139,13 @@ class Deserializer extends SerializerBase
      */
     private function getDateValue($value, $format)
     {
-        try {
-            return \DateTime::createFromFormat($format, $value);
-        } catch(\Exception $e) {
-            throw new DeserializingException(self::INVALID_VALUE_FOR_PROPERTY_OF_TYPE . ' date: ' . print_r($value, true), $e);
+        $date = \DateTime::createFromFormat($format, $value);
+
+        if (!$date) {
+            throw new DeserializingException(self::INVALID_VALUE_FOR_PROPERTY_OF_TYPE . ' date: ' . print_r($value, true));
         }
+
+        return $date;
     }
 
     /**

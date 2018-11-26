@@ -1,0 +1,2 @@
+PJS\Tests\Objects\TestObject:
+  stringProperty: 'PJS\Tests\Objects\NestedObject'

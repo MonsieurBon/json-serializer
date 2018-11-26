@@ -21,7 +21,6 @@ class Serializer extends SerializerBase
     /**
      * @param $object
      * @return false|null|string
-     * @throws SerializingException
      */
     public function serialize($object)
     {
@@ -50,8 +49,6 @@ class Serializer extends SerializerBase
      * @param $object
      * @param \ReflectionProperty $property
      * @return mixed
-     * @throws SerializingException
-     * @throws \ReflectionException
      */
     private function encodeValue($object, \ReflectionProperty $property)
     {
@@ -90,10 +87,9 @@ class Serializer extends SerializerBase
 
     /**
      * @param $object
-     * @return array
-     * @throws SerializingException
+     * @return mixed
      */
-    private function serializeObject($object): array
+    private function serializeObject($object)
     {
         try {
             $reflection = new \ReflectionClass($object);
@@ -108,10 +104,8 @@ class Serializer extends SerializerBase
                 }
             }
             return $array;
-        } catch (SerializingException $e) {
-            throw $e;
-        } catch (\Exception $e) {
-            throw new SerializingException("Exception while serializing", $e);
+        } catch (\ReflectionException $e) {
+            return $object;
         }
     }
 }

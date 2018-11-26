@@ -4,7 +4,7 @@ namespace PJS\Tests;
 
 
 use PHPUnit\Framework\TestCase;
-use PJS\Exception\DeserializingException;
+use PJS\Exception\SerializingException;
 use PJS\JsonSerializer;
 use PJS\Tests\Objects\NestedObject;
 use PJS\Tests\Objects\TestObject;
@@ -84,6 +84,19 @@ class SerializeTest extends TestCase
         $this->assertEquals('{"dateProperty":"2018-11-01T10:49:53Z"}', $json);
     }
 
+    public function testSerializeInvalidDate()
+    {
+        $object = new TestObject();
+        $object->setStringProperty('foo');
+
+        $serializer = new JsonSerializer();
+        $serializer->configure(__DIR__ . '/resources/config_invalid_date.yml');
+
+        $json = $serializer->serialize($object);
+
+        $this->assertEquals('{"stringProperty":"foo"}', $json);
+    }
+
     public function testSerializeArrayProperty()
     {
         $object = new TestObject();
@@ -150,7 +163,7 @@ class SerializeTest extends TestCase
         $this->assertEquals('{"booleanProperty":true,"integerProperty":42,"stringProperty":"foo","nestedObject":{}}', $json);
     }
 
-    public function testDeserializeNestedObjectWithConfiguration()
+    public function testSerializeNestedObjectWithConfiguration()
     {
         $nestedObject = new NestedObject();
         $nestedObject->setBooleanProperty(false);
@@ -168,5 +181,17 @@ class SerializeTest extends TestCase
         $json = $serializer->serialize($object);
 
         $this->assertEquals('{"booleanProperty":true,"integerProperty":42,"stringProperty":"foo","nestedObject":{"booleanProperty":false,"integerProperty":24,"stringProperty":"bar"}}', $json);
+    }
+
+    public function testSerializeInvalidObjectThrowsException()
+    {
+        $object = new TestObject();
+        $object->setStringProperty('foo');
+
+        $serializer = new JsonSerializer();
+        $serializer->configure(__DIR__ . '/resources/config_invalid_nested_object.yml');
+        $json = $serializer->serialize($object);
+
+        $this->assertEquals('{"stringProperty":"foo"}', $json);
     }
 }

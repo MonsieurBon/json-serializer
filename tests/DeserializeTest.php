@@ -99,10 +99,27 @@ class DeserializeTest extends TestCase
         $this->assertEquals(1541069393, $object->getDateProperty()->getTimestamp());
     }
 
-    public function testDeserializeArrayProperty()
+    public function testDeserializeUnconfiguredArrayProperty()
     {
         $json = json_encode(array('arrayProperty' => array('a', 'b', 'c', 1, 2, 3)));
         $serializer = new JsonSerializer();
+
+        /** @var TestObject $object */
+        $object = $serializer->deserialize($json, TestObject::class);
+
+        $this->assertNotNull($object);
+        $this->assertNull($object->getBooleanProperty());
+        $this->assertNull($object->getDateProperty());
+        $this->assertNull($object->getIntegerProperty());
+        $this->assertNull($object->getStringProperty());
+        $this->assertEquals(array('a', 'b', 'c', 1, 2, 3), $object->getArrayProperty());
+    }
+
+    public function testDeserializeConfiguredArrayProperty()
+    {
+        $json = json_encode(array('arrayProperty' => array('a', 'b', 'c', 1, 2, 3)));
+        $serializer = new JsonSerializer();
+        $serializer->configure(__DIR__ . '/resources/config.yml');
 
         /** @var TestObject $object */
         $object = $serializer->deserialize($json, TestObject::class);
@@ -261,6 +278,64 @@ class DeserializeTest extends TestCase
         $serializer = new JsonSerializer();
         $serializer->configure(__DIR__ . '/resources/config.yml');
 
+        $serializer->deserialize($json, TestObject::class);
+    }
+
+    public function testDeserializerInvalidArray()
+    {
+        $this->expectException(DeserializingException::class);
+        $this->expectExceptionMessage('Invalid value for property of type array: foo');
+
+        $json = json_encode(array(
+            'arrayProperty' => 'foo'
+        ));
+
+        $serializer = new JsonSerializer();
+        $serializer->configure(__DIR__ . '/resources/config.yml');
+
+        $serializer->deserialize($json, TestObject::class);
+    }
+
+    public function testDeserializeInvalidDate()
+    {
+        $this->expectException(DeserializingException::class);
+        $this->expectExceptionMessage('Invalid value for property of type date: foo');
+
+        $json = json_encode(array(
+            'dateProperty' => 'foo'
+        ));
+
+        $serializer = new JsonSerializer();
+        $serializer->configure(__DIR__ . '/resources/config.yml');
+
+        $serializer->deserialize($json, TestObject::class);
+    }
+
+    public function testDeserializeInvalidFloat()
+    {
+        $this->expectException(DeserializingException::class);
+        $this->expectExceptionMessage('Invalid value for property of type float: foo');
+
+        $json = json_encode(array(
+            'floatProperty' => 'foo'
+        ));
+
+        $serializer = new JsonSerializer();
+        $serializer->configure(__DIR__ . '/resources/config.yml');
+
+        $serializer->deserialize($json, TestObject::class);
+    }
+
+    public function testInvalidProperty()
+    {
+        $this->expectException(DeserializingException::class);
+        $this->expectExceptionMessage('Exception while deserializing');
+
+        $json = json_encode(array(
+            'invalidProperty' => 'invalid data'
+        ));
+
+        $serializer = new JsonSerializer();
         $serializer->deserialize($json, TestObject::class);
     }
 
