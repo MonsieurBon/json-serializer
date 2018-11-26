@@ -4,12 +4,12 @@
 A lightweight PHP JSON serializer
 
 ## Installation
-```
+```bash
 composer require monsieurbon/json-serializer
 ```
 
 ## Usage
-```
+```PHP
 $serializer = new JsonSerializer();
 $serializer->configure('path/to/some/config.yml');
 
@@ -19,7 +19,7 @@ $myObject = $serializer->deserialize($json);
 
 ### Configuration
 You can supply a configuration file in yaml format:
-```
+```YAML
 NameSpace\Of\MyObject:
   arrayProperty: 'array'
   booleanProperty: 'boolean'
