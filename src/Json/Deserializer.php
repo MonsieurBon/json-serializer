@@ -15,11 +15,6 @@ class Deserializer extends SerializerBase
 {
     private const INVALID_VALUE_FOR_PROPERTY_OF_TYPE = 'Invalid value for property of type';
 
-    public function __construct($configuration = array())
-    {
-        parent::__construct($configuration);
-    }
-
     /**
      * @param string $json
      * @param Callable|string $class
@@ -186,8 +181,7 @@ class Deserializer extends SerializerBase
         if (!is_string($value)) {
             throw new DeserializingException(self::INVALID_VALUE_FOR_PROPERTY_OF_TYPE . ' string: ' . print_r($value, true));
         }
-        $stringValue = $value;
-        return $stringValue;
+        return $value;
     }
 
     /**

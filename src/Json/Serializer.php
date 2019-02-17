@@ -13,11 +13,6 @@ use PJS\Exception\SerializingException;
 
 class Serializer extends SerializerBase
 {
-    public function __construct($configuration = array())
-    {
-        parent::__construct($configuration);
-    }
-
     /**
      * @param $object
      * @return false|null|string

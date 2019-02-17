@@ -32,8 +32,7 @@ class SerializerBase
      */
     private function getObjectConfig(string $class): array
     {
-        $objectConfig = $this->configuration[$class] ?? array();
-        return $objectConfig;
+        return $this->configuration[$class] ?? array();
     }
 
     /**
