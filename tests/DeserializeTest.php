@@ -236,6 +236,34 @@ class DeserializeTest extends TestCase
         $this->assertFalse($nestedObject->getBooleanProperty());
     }
 
+    public function testGetClassnameFromCallable()
+    {
+        $json = json_encode(array('stringProperty' => 'foo'));
+        $serializer = new JsonSerializer();
+
+        $called = false;
+        $object = $serializer->deserialize($json, function($array) use (&$called) {
+            $called = true;
+            return TestObject::class;
+        });
+
+        $this->assertNotNull($object);
+        $this->assertTrue($called);
+        $this->assertTrue($object instanceof TestObject);
+        $this->assertEquals('foo', $object->getStringProperty());
+        $this->assertNull($object->getIntegerProperty());
+        $this->assertNull($object->getBooleanProperty());
+    }
+
+    public function testOnlyStringOrCallableAccepted()
+    {
+        $this->expectException(DeserializingException::class);
+        $this->expectExceptionMessage('Class is neither a callable nor a string.');
+        $json = json_encode(array('stringProperty' => 'foo'));
+        $serializer = new JsonSerializer();
+        $serializer->deserialize($json, 5);
+    }
+
     public function testDeserializeInvalidString()
     {
         $this->expectException(DeserializingException::class);

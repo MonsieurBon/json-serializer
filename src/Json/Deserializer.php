@@ -22,12 +22,12 @@ class Deserializer extends SerializerBase
 
     /**
      * @param string $json
-     * @param string $class
+     * @param Callable|string $class
      *
      * @return object|null
      * @throws DeserializingException
      */
-    public function deserialize(string $json, string $class)
+    public function deserialize(string $json, $class)
     {
         $array = json_decode($json, true);
 
@@ -40,14 +40,16 @@ class Deserializer extends SerializerBase
 
     /**
      * @param array $array
-     * @param string $class
+     * @param Callable|string $class
      * @return null|object
      * @throws DeserializingException
      */
-    private function deserializeArray(array $array, string $class)
+    private function deserializeArray(array $array, $class)
     {
+        $className = $this->getClassName($array, $class);
+
         try {
-            return $this->arrayToObject($array, $class);
+            return $this->arrayToObject($array, $className);
         } catch (DeserializingException $e) {
             throw $e;
         } catch (\Exception $e) {
@@ -193,11 +195,30 @@ class Deserializer extends SerializerBase
      * @param $name
      * @param $object
      * @param $sanitizedValue
+     * @throws \ReflectionException
      */
     private function setProperty(\ReflectionClass $reflection, $name, $object, $sanitizedValue): void
     {
         $property = $reflection->getProperty($name);
         $property->setAccessible(true);
         $property->setValue($object, $sanitizedValue);
+    }
+
+    /**
+     * @param array $array
+     * @param $class
+     * @return string
+     * @throws DeserializingException
+     */
+    private function getClassName(array $array, $class): string
+    {
+        if (is_callable($class)) {
+            $className = $class($array);
+        } else if (is_string($class)) {
+            $className = $class;
+        } else {
+            throw new DeserializingException("Class is neither a callable nor a string.");
+        }
+        return $className;
     }
 }

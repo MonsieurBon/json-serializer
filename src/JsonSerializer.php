@@ -23,12 +23,12 @@ class JsonSerializer
 
     /**
      * @param string $json
-     * @param string $class
+     * @param Callable|string $class
      *
      * @return object|null
      * @throws DeserializingException
      */
-    public function deserialize(string $json, string $class)
+    public function deserialize(string $json, $class)
     {
         $deserializer = new Deserializer($this->configuration);
         return $deserializer->deserialize($json, $class);
