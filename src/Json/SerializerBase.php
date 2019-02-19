@@ -13,10 +13,12 @@ class SerializerBase
 {
     protected const TYPE = 'type';
     protected const DATE_FORMAT = 'dateFormat';
+    protected const FACTORY_METHOD = 'factoryMethod';
 
     private const DEFAULT_CONFIG = array(
         self::TYPE => null,
-        self::DATE_FORMAT => 'd-m-Y H:i:s\Z'
+        self::DATE_FORMAT => 'd-m-Y H:i:s\Z',
+        self::FACTORY_METHOD => null
     );
 
     private $configuration;
@@ -43,16 +45,12 @@ class SerializerBase
     protected function getPropertyConfig(string $class, $propertyName): array
     {
         $objectConfig = $this->getObjectConfig($class);
-
-        $mergedPropertyConfig = self::DEFAULT_CONFIG;
-
         $propertyConfig = $objectConfig[$propertyName] ?? null;
+
         if (is_array($propertyConfig)) {
-            foreach ($propertyConfig as $configName => $configValue) {
-                $mergedPropertyConfig[$configName] = $configValue;
-            }
+            $mergedPropertyConfig = array_merge(self::DEFAULT_CONFIG, $propertyConfig);
         } else {
-            $mergedPropertyConfig[self::TYPE] = $propertyConfig;
+            $mergedPropertyConfig = array_merge(self::DEFAULT_CONFIG, [self::TYPE => $propertyConfig]);
         }
 
         return $mergedPropertyConfig;

@@ -57,12 +57,17 @@ class Deserializer extends SerializerBase
      *
      * @param string $class
      *
+     * @param string|null $factoryMethodName
      * @return object
-     * @throws \ReflectionException
      * @throws DeserializingException
+     * @throws \ReflectionException
      */
-    private function arrayToObject($dataArray, string $class)
+    private function arrayToObject($dataArray, string $class, string $factoryMethodName = null)
     {
+        if ($factoryMethodName !== null) {
+            return $this->createFromFactoryMethod($dataArray, $class, $factoryMethodName);
+        }
+
         $reflection = new \ReflectionClass($class);
         $object = $reflection->newInstanceWithoutConstructor();
 
@@ -94,7 +99,7 @@ class Deserializer extends SerializerBase
                     $sanitizedValue = $this->getStringValue($value);
                     break;
                 default:
-                    $sanitizedValue = $this->arrayToObject($value, $propertyType);
+                    $sanitizedValue = $this->arrayToObject($value, $propertyType, $propertyConfig[self::FACTORY_METHOD]);
             }
 
             $this->setProperty($reflection, $propertyName, $object, $sanitizedValue);
@@ -214,5 +219,29 @@ class Deserializer extends SerializerBase
             throw new DeserializingException("Class is neither a callable nor a string.");
         }
         return $className;
+    }
+
+    /**
+     * @param $data
+     * @param string $class
+     * @param string $factoryMethodName
+     * @return mixed
+     * @throws DeserializingException
+     * @throws \ReflectionException
+     */
+    private function createFromFactoryMethod($data, string $class, string $factoryMethodName)
+    {
+        $reflection = new \ReflectionClass($class);
+        if (!$reflection->hasMethod($factoryMethodName)) {
+            throw new DeserializingException(sprintf("No such factory method '%s'", $factoryMethodName));
+        }
+
+        $factoryMethod = $reflection->getMethod($factoryMethodName);
+
+        if ($factoryMethod->isStatic()) {
+            return $factoryMethod->invoke(null, $data);
+        } else {
+            throw new DeserializingException(sprintf("Factory method '%s' must be static", $factoryMethodName));
+        }
     }
 }

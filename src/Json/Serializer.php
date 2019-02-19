@@ -87,7 +87,12 @@ class Serializer extends SerializerBase
     private function serializeObject($object)
     {
         try {
+            if ($object instanceof \JsonSerializable) {
+                return $object->jsonSerialize();
+            }
+
             $reflection = new \ReflectionClass($object);
+
             $properties = $reflection->getProperties();
 
             $array = array();

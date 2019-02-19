@@ -4,8 +4,8 @@ namespace PJS\Tests;
 
 
 use PHPUnit\Framework\TestCase;
-use PJS\Exception\SerializingException;
 use PJS\JsonSerializer;
+use PJS\Tests\Objects\FactoryTestObject;
 use PJS\Tests\Objects\NestedObject;
 use PJS\Tests\Objects\TestObject;
 
@@ -193,5 +193,28 @@ class SerializeTest extends TestCase
         $json = $serializer->serialize($object);
 
         $this->assertEquals('{"stringProperty":"foo"}', $json);
+    }
+
+    public function testSerializeValueObjectWithoutConfig()
+    {
+        $object = new TestObject();
+        $object->setFactoryTestObject(FactoryTestObject::fromString('foo'));
+
+        $serializer = new JsonSerializer();
+        $json = $serializer->serialize($object);
+
+        $this->assertEquals('{"factoryTestObject":"foo"}', $json);
+    }
+
+    public function testSerializeValueObjectWithConfig()
+    {
+        $object = new TestObject();
+        $object->setFactoryTestObject(FactoryTestObject::fromString('foo'));
+
+        $serializer = new JsonSerializer();
+        $serializer->configure(__DIR__ . '/resources/config_factory_object.yml');
+        $json = $serializer->serialize($object);
+
+        $this->assertEquals('{"factoryTestObject":"foo"}', $json);
     }
 }

@@ -14,7 +14,10 @@ $serializer = new JsonSerializer();
 $serializer->configure('path/to/some/config.yml');
 
 $json = $serializer->serialize($myObject);
-$myObject = $serializer->deserialize($json);
+$myObject = $serializer->deserialize($json, MyClass::class);
+$myObject = $serializer->deserialize($json, function ($dataArray) {
+    return 'My\ClassName\From\DataArray';
+});
 ```
 
 ### Configuration
@@ -30,11 +33,18 @@ NameSpace\Of\MyObject:
   integerProperty: 'integer'
   stringProperty: 'string'
   nestedObject: 'NameSpace\Of\MyNestedObject'
+  factoryObject:
+    type: 'NameSpace\Of\FactoryObject'
+    factoryMethod: 'fromData'
 NameSpace\Of\MyNestedObject:
   dateProperty: 'date'
 ```
 
 The type `date` supports an optional dateFormat property. It defaults to `d-m-Y H:i:s\Z`.
+For nested objects you can define a static factory method that will be called with the data to create the object.
+
+If you want to specify the data that will be serialized for an object, implement the standard php \JsonSerializable
+interface.
 
 ## Dependencies
 The following PHP extensions are required:

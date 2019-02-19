@@ -5,7 +5,9 @@ namespace PJS\Tests;
 
 use PHPUnit\Framework\TestCase;
 use PJS\Exception\DeserializingException;
+use PJS\Exception\SerializingException;
 use PJS\JsonSerializer;
+use PJS\Tests\Objects\FactoryTestObject;
 use PJS\Tests\Objects\NestedObject;
 use PJS\Tests\Objects\TestObject;
 
@@ -367,4 +369,51 @@ class DeserializeTest extends TestCase
         $serializer->deserialize($json, TestObject::class);
     }
 
+    public function testCreateFromFactoryMethod()
+    {
+        $json = json_encode(array(
+            'factoryTestObject' => 'foobar'
+        ));
+
+        $serializer = new JsonSerializer();
+        $serializer->configure(__DIR__ . '/resources/config_factory_object.yml');
+
+        /** @var TestObject $object */
+        $object = $serializer->deserialize($json, TestObject::class);
+
+        $this->assertNotNull($object);
+        $this->assertNotNull($object->getFactoryTestObject());
+        $this->assertTrue($object->getFactoryTestObject() instanceof FactoryTestObject);
+        $this->assertEquals('foobar', $object->getFactoryTestObject()->toString());
+    }
+
+    public function testInvalidFactoryMethod()
+    {
+        $this->expectException(DeserializingException::class);
+        $this->expectExceptionMessage("No such factory method 'fromData'");
+
+        $json = json_encode(array(
+            'factoryTestObject' => 'foobar'
+        ));
+
+        $serializer = new JsonSerializer();
+        $serializer->configure(__DIR__ . '/resources/config_invalid_factory_method.yml');
+
+        $serializer->deserialize($json, TestObject::class);
+    }
+
+    public function testNonStaticFactoryMethod()
+    {
+        $this->expectException(DeserializingException::class);
+        $this->expectExceptionMessage("Factory method 'nonStaticFactory' must be static");
+
+        $json = json_encode(array(
+            'factoryTestObject' => 'foobar'
+        ));
+
+        $serializer = new JsonSerializer();
+        $serializer->configure(__DIR__ . '/resources/config_non_static_factory_method.yml');
+
+        $serializer->deserialize($json, TestObject::class);
+    }
 }

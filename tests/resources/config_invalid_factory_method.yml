@@ -1,0 +1,4 @@
+PJS\Tests\Objects\TestObject:
+  factoryTestObject:
+    type: 'PJS\Tests\Objects\FactoryTestObject'
+    factoryMethod: 'fromData'

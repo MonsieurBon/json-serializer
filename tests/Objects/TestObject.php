@@ -42,6 +42,11 @@ class TestObject
     private $nestedObject;
 
     /**
+     * @var FactoryTestObject
+     */
+    private $factoryTestObject;
+
+    /**
      * @return array
      */
     public function getArrayProperty()
@@ -151,5 +156,15 @@ class TestObject
     public function setNestedObject(NestedObject $nestedObject): void
     {
         $this->nestedObject = $nestedObject;
+    }
+
+    public function getFactoryTestObject(): FactoryTestObject
+    {
+        return $this->factoryTestObject;
+    }
+
+    public function setFactoryTestObject(FactoryTestObject $factoryTestObject): void
+    {
+        $this->factoryTestObject = $factoryTestObject;
     }
 }
