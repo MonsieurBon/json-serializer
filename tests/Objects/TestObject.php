@@ -4,7 +4,7 @@
 namespace PJS\Tests\Objects;
 
 
-class TestObject
+class TestObject extends ParentTestObject
 {
     /**
      * @var array

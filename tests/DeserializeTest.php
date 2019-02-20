@@ -416,4 +416,19 @@ class DeserializeTest extends TestCase
 
         $serializer->deserialize($json, TestObject::class);
     }
+
+    public function testParentObjectDeserialization()
+    {
+        $json = json_encode(array(
+            'parentStringProperty' => 'parentFoo'
+        ));
+
+        $serializer = new JsonSerializer();
+
+        /** @var TestObject $object */
+        $object = $serializer->deserialize($json, TestObject::class);
+
+        $this->assertNotNull($object);
+        $this->assertEquals('parentFoo', $object->getParentStringProperty());
+    }
 }

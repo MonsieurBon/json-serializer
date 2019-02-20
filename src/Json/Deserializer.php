@@ -198,7 +198,7 @@ class Deserializer extends SerializerBase
      */
     private function setProperty(\ReflectionClass $reflection, $name, $object, $sanitizedValue): void
     {
-        $property = $reflection->getProperty($name);
+        $property = $this->getProperty($reflection, $name);
         $property->setAccessible(true);
         $property->setValue($object, $sanitizedValue);
     }
@@ -242,6 +242,22 @@ class Deserializer extends SerializerBase
             return $factoryMethod->invoke(null, $data);
         } else {
             throw new DeserializingException(sprintf("Factory method '%s' must be static", $factoryMethodName));
+        }
+    }
+
+    /**
+     * @param \ReflectionClass $reflection
+     * @param $name
+     * @return \ReflectionProperty
+     * @throws \ReflectionException
+     */
+    private function getProperty(\ReflectionClass $reflection, $name): \ReflectionProperty
+    {
+        $parent = $reflection->getParentClass();
+        if ($reflection->hasProperty($name) || $parent === false) {
+            return $reflection->getProperty($name);
+        } else {
+            return $this->getProperty($parent, $name);
         }
     }
 }
