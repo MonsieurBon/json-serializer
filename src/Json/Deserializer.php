@@ -209,7 +209,7 @@ class Deserializer extends SerializerBase
      * @return string
      * @throws DeserializingException
      */
-    private function getClassName(array $array, $class): string
+    private function getClassName(array &$array, $class): string
     {
         if (is_callable($class)) {
             $className = $class($array);
