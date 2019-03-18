@@ -20,9 +20,9 @@ class ExceptionTest extends TestCase
         $previous = new \Exception('foo');
         $exception = new DeserializingException('bar', $previous);
 
-        $this->assertTrue($exception instanceof DeserializingException);
-        $this->assertEquals('bar', $exception->getMessage());
-        $this->assertEquals($previous, $exception->getPrevious());
+        self::assertTrue($exception instanceof DeserializingException);
+        self::assertEquals('bar', $exception->getMessage());
+        self::assertEquals($previous, $exception->getPrevious());
     }
 
     public function testCanInstantiateSerializingException()
@@ -30,8 +30,8 @@ class ExceptionTest extends TestCase
         $previous = new \Exception('foo');
         $exception = new SerializingException('bar', $previous);
 
-        $this->assertTrue($exception instanceof SerializingException);
-        $this->assertEquals('bar', $exception->getMessage());
-        $this->assertEquals($previous, $exception->getPrevious());
+        self::assertTrue($exception instanceof SerializingException);
+        self::assertEquals('bar', $exception->getMessage());
+        self::assertEquals($previous, $exception->getPrevious());
     }
 }

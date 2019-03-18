@@ -16,7 +16,7 @@ class SerializeTest extends TestCase
         $serializer = new JsonSerializer();
         $json = $serializer->serialize(null);
 
-        $this->assertNull($json);
+        self::assertNull($json);
     }
 
     public function testDeserializeEmptyJson()
@@ -24,7 +24,7 @@ class SerializeTest extends TestCase
         $serializer = new JsonSerializer();
         $json = $serializer->serialize(new TestObject());
 
-        $this->assertEquals("{}", $json);
+        self::assertEquals("{}", $json);
     }
 
     public function testSerializeStringProperty()
@@ -35,7 +35,7 @@ class SerializeTest extends TestCase
         $serializer = new JsonSerializer();
         $json = $serializer->serialize($object);
 
-        $this->assertEquals('{"stringProperty":"foo"}', $json);
+        self::assertEquals('{"stringProperty":"foo"}', $json);
     }
 
     public function testSerializeIntegerProperty()
@@ -46,7 +46,7 @@ class SerializeTest extends TestCase
         $serializer = new JsonSerializer();
         $json = $serializer->serialize($object);
 
-        $this->assertEquals('{"integerProperty":42}', $json);
+        self::assertEquals('{"integerProperty":42}', $json);
     }
 
     public function testSerializeBooleanProperty()
@@ -57,7 +57,7 @@ class SerializeTest extends TestCase
         $serializer = new JsonSerializer();
         $json = $serializer->serialize($object);
 
-        $this->assertEquals('{"booleanProperty":true}', $json);
+        self::assertEquals('{"booleanProperty":true}', $json);
     }
 
     public function testSerializeUnconfiguredDateProperty()
@@ -68,7 +68,7 @@ class SerializeTest extends TestCase
         $serializer = new JsonSerializer();
         $json = $serializer->serialize($object);
 
-        $this->assertEquals('{"dateProperty":{"date":"2018-11-01 10:49:53.000000","timezone_type":2,"timezone":"Z"}}', $json);
+        self::assertEquals('{"dateProperty":{"date":"2018-11-01 10:49:53.000000","timezone_type":2,"timezone":"Z"}}', $json);
     }
 
     public function testSerializeUnconfiguredImmutableDateProperty()
@@ -79,7 +79,7 @@ class SerializeTest extends TestCase
         $serializer = new JsonSerializer();
         $json = $serializer->serialize($object);
 
-        $this->assertEquals('{"immutableDateProperty":{"date":"2018-11-01 10:49:53.000000","timezone_type":2,"timezone":"Z"}}', $json);
+        self::assertEquals('{"immutableDateProperty":{"date":"2018-11-01 10:49:53.000000","timezone_type":2,"timezone":"Z"}}', $json);
     }
 
     public function testSerializeConfiguredDateProperty()
@@ -92,7 +92,7 @@ class SerializeTest extends TestCase
 
         $json = $serializer->serialize($object);
 
-        $this->assertEquals('{"dateProperty":"2018-11-01T10:49:53Z"}', $json);
+        self::assertEquals('{"dateProperty":"2018-11-01T10:49:53Z"}', $json);
     }
 
     public function testSerializeInvalidDate()
@@ -105,7 +105,7 @@ class SerializeTest extends TestCase
 
         $json = $serializer->serialize($object);
 
-        $this->assertEquals('{"stringProperty":"foo"}', $json);
+        self::assertEquals('{"stringProperty":"foo"}', $json);
     }
 
     public function testSerializeArrayProperty()
@@ -116,7 +116,7 @@ class SerializeTest extends TestCase
         $serializer = new JsonSerializer();
         $json = $serializer->serialize($object);
 
-        $this->assertEquals('{"arrayProperty":["a","b","c",1,2,3]}', $json);
+        self::assertEquals('{"arrayProperty":["a","b","c",1,2,3]}', $json);
     }
 
     public function testSerializeUnconfiguredFloatProperty()
@@ -127,7 +127,7 @@ class SerializeTest extends TestCase
         $serializer = new JsonSerializer();
         $json = $serializer->serialize($object);
 
-        $this->assertEquals('{"floatProperty":1.2e-5}', $json);
+        self::assertEquals('{"floatProperty":1.2e-5}', $json);
     }
 
     public function testSerializeConfiguredFloatProperty()
@@ -139,7 +139,7 @@ class SerializeTest extends TestCase
         $serializer->configure(__DIR__ . '/resources/config.yml');
         $json = $serializer->serialize($object);
 
-        $this->assertEquals('{"floatProperty":1.2e-5}', $json);
+        self::assertEquals('{"floatProperty":1.2e-5}', $json);
     }
 
     public function testSerializeMultipleProperties()
@@ -152,7 +152,7 @@ class SerializeTest extends TestCase
         $serializer = new JsonSerializer();
         $json = $serializer->serialize($object);
 
-        $this->assertEquals('{"booleanProperty":true,"integerProperty":42,"stringProperty":"foo"}', $json);
+        self::assertEquals('{"booleanProperty":true,"integerProperty":42,"stringProperty":"foo"}', $json);
     }
 
     public function testSerializeNestedObjectWithoutConfiguration()
@@ -171,7 +171,7 @@ class SerializeTest extends TestCase
         $serializer = new JsonSerializer();
         $json = $serializer->serialize($object);
 
-        $this->assertEquals('{"booleanProperty":true,"integerProperty":42,"stringProperty":"foo","nestedObject":{}}', $json);
+        self::assertEquals('{"booleanProperty":true,"integerProperty":42,"stringProperty":"foo","nestedObject":{}}', $json);
     }
 
     public function testSerializeNestedObjectWithConfiguration()
@@ -191,7 +191,7 @@ class SerializeTest extends TestCase
         $serializer->configure(__DIR__ . '/resources/config.yml');
         $json = $serializer->serialize($object);
 
-        $this->assertEquals('{"booleanProperty":true,"integerProperty":42,"stringProperty":"foo","nestedObject":{"booleanProperty":false,"integerProperty":24,"stringProperty":"bar"}}', $json);
+        self::assertEquals('{"booleanProperty":true,"integerProperty":42,"stringProperty":"foo","nestedObject":{"booleanProperty":false,"integerProperty":24,"stringProperty":"bar"}}', $json);
     }
 
     public function testSerializeInvalidObjectThrowsException()
@@ -203,7 +203,7 @@ class SerializeTest extends TestCase
         $serializer->configure(__DIR__ . '/resources/config_invalid_nested_object.yml');
         $json = $serializer->serialize($object);
 
-        $this->assertEquals('{"stringProperty":"foo"}', $json);
+        self::assertEquals('{"stringProperty":"foo"}', $json);
     }
 
     public function testSerializeValueObjectWithoutConfig()
@@ -214,7 +214,7 @@ class SerializeTest extends TestCase
         $serializer = new JsonSerializer();
         $json = $serializer->serialize($object);
 
-        $this->assertEquals('{"factoryTestObject":"foo"}', $json);
+        self::assertEquals('{"factoryTestObject":"foo"}', $json);
     }
 
     public function testSerializeValueObjectWithConfig()
@@ -226,6 +226,6 @@ class SerializeTest extends TestCase
         $serializer->configure(__DIR__ . '/resources/config_factory_object.yml');
         $json = $serializer->serialize($object);
 
-        $this->assertEquals('{"factoryTestObject":"foo"}', $json);
+        self::assertEquals('{"factoryTestObject":"foo"}', $json);
     }
 }

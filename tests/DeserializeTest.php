@@ -19,7 +19,7 @@ class DeserializeTest extends TestCase
         $serializer = new JsonSerializer();
         $object = $serializer->deserialize($null_json, TestObject::class);
 
-        $this->assertNull($object);
+        self::assertNull($object);
     }
 
     public function testDeserializeEmptyJson()
@@ -28,10 +28,10 @@ class DeserializeTest extends TestCase
         $serializer = new JsonSerializer();
         $object = $serializer->deserialize($empty_json, TestObject::class);
 
-        $this->assertNotNull($object);
-        $this->assertNull($object->getStringProperty());
-        $this->assertNull($object->getIntegerProperty());
-        $this->assertNull($object->getBooleanProperty());
+        self::assertNotNull($object);
+        self::assertNull($object->getStringProperty());
+        self::assertNull($object->getIntegerProperty());
+        self::assertNull($object->getBooleanProperty());
     }
 
     public function testDeserializeStringProperty()
@@ -40,10 +40,10 @@ class DeserializeTest extends TestCase
         $serializer = new JsonSerializer();
         $object = $serializer->deserialize($json, TestObject::class);
 
-        $this->assertNotNull($object);
-        $this->assertEquals('foo', $object->getStringProperty());
-        $this->assertNull($object->getIntegerProperty());
-        $this->assertNull($object->getBooleanProperty());
+        self::assertNotNull($object);
+        self::assertEquals('foo', $object->getStringProperty());
+        self::assertNull($object->getIntegerProperty());
+        self::assertNull($object->getBooleanProperty());
     }
 
     public function testDeserializeIntegerProperty()
@@ -52,10 +52,10 @@ class DeserializeTest extends TestCase
         $serializer = new JsonSerializer();
         $object = $serializer->deserialize($json, TestObject::class);
 
-        $this->assertNotNull($object);
-        $this->assertNull($object->getStringProperty());
-        $this->assertEquals(42, $object->getIntegerProperty());
-        $this->assertNull($object->getBooleanProperty());
+        self::assertNotNull($object);
+        self::assertNull($object->getStringProperty());
+        self::assertEquals(42, $object->getIntegerProperty());
+        self::assertNull($object->getBooleanProperty());
     }
 
     public function testDeserializeBooleanProperty()
@@ -64,10 +64,10 @@ class DeserializeTest extends TestCase
         $serializer = new JsonSerializer();
         $object = $serializer->deserialize($json, TestObject::class);
 
-        $this->assertNotNull($object);
-        $this->assertNull($object->getStringProperty());
-        $this->assertNull($object->getIntegerProperty());
-        $this->assertTrue($object->getBooleanProperty());
+        self::assertNotNull($object);
+        self::assertNull($object->getStringProperty());
+        self::assertNull($object->getIntegerProperty());
+        self::assertTrue($object->getBooleanProperty());
     }
 
     public function testDeserializeUnconfiguredDateProperty()
@@ -78,11 +78,11 @@ class DeserializeTest extends TestCase
         /** @var TestObject $object */
         $object = $serializer->deserialize($json, TestObject::class);
 
-        $this->assertNotNull($object);
-        $this->assertNull($object->getStringProperty());
-        $this->assertNull($object->getIntegerProperty());
-        $this->assertNull($object->getBooleanProperty());
-        $this->assertEquals('2018-11-01\T10:49:53Z', $object->getDateProperty());
+        self::assertNotNull($object);
+        self::assertNull($object->getStringProperty());
+        self::assertNull($object->getIntegerProperty());
+        self::assertNull($object->getBooleanProperty());
+        self::assertEquals('2018-11-01\T10:49:53Z', $object->getDateProperty());
     }
 
     public function testDeserializeConfiguredDateProperty()
@@ -94,12 +94,12 @@ class DeserializeTest extends TestCase
         /** @var TestObject $object */
         $object = $serializer->deserialize($json, TestObject::class);
 
-        $this->assertNotNull($object);
-        $this->assertNull($object->getStringProperty());
-        $this->assertNull($object->getIntegerProperty());
-        $this->assertNull($object->getBooleanProperty());
-        $this->assertTrue($object->getDateProperty() instanceof \DateTime);
-        $this->assertEquals(1541069393, $object->getDateProperty()->getTimestamp());
+        self::assertNotNull($object);
+        self::assertNull($object->getStringProperty());
+        self::assertNull($object->getIntegerProperty());
+        self::assertNull($object->getBooleanProperty());
+        self::assertTrue($object->getDateProperty() instanceof \DateTime);
+        self::assertEquals(1541069393, $object->getDateProperty()->getTimestamp());
     }
 
     public function testDeserializeConfiguredImmutableDateProperty()
@@ -111,13 +111,13 @@ class DeserializeTest extends TestCase
         /** @var TestObject $object */
         $object = $serializer->deserialize($json, TestObject::class);
 
-        $this->assertNotNull($object);
-        $this->assertNull($object->getStringProperty());
-        $this->assertNull($object->getIntegerProperty());
-        $this->assertNull($object->getBooleanProperty());
-        $this->assertNull($object->getDateProperty());
-        $this->assertTrue($object->getImmutableDateProperty() instanceof \DateTimeImmutable);
-        $this->assertEquals(1541069393, $object->getImmutableDateProperty()->getTimestamp());
+        self::assertNotNull($object);
+        self::assertNull($object->getStringProperty());
+        self::assertNull($object->getIntegerProperty());
+        self::assertNull($object->getBooleanProperty());
+        self::assertNull($object->getDateProperty());
+        self::assertTrue($object->getImmutableDateProperty() instanceof \DateTimeImmutable);
+        self::assertEquals(1541069393, $object->getImmutableDateProperty()->getTimestamp());
     }
 
     public function testDeserializeUnconfiguredArrayProperty()
@@ -128,12 +128,12 @@ class DeserializeTest extends TestCase
         /** @var TestObject $object */
         $object = $serializer->deserialize($json, TestObject::class);
 
-        $this->assertNotNull($object);
-        $this->assertNull($object->getBooleanProperty());
-        $this->assertNull($object->getDateProperty());
-        $this->assertNull($object->getIntegerProperty());
-        $this->assertNull($object->getStringProperty());
-        $this->assertEquals(array('a', 'b', 'c', 1, 2, 3), $object->getArrayProperty());
+        self::assertNotNull($object);
+        self::assertNull($object->getBooleanProperty());
+        self::assertNull($object->getDateProperty());
+        self::assertNull($object->getIntegerProperty());
+        self::assertNull($object->getStringProperty());
+        self::assertEquals(array('a', 'b', 'c', 1, 2, 3), $object->getArrayProperty());
     }
 
     public function testDeserializeConfiguredArrayProperty()
@@ -145,12 +145,12 @@ class DeserializeTest extends TestCase
         /** @var TestObject $object */
         $object = $serializer->deserialize($json, TestObject::class);
 
-        $this->assertNotNull($object);
-        $this->assertNull($object->getBooleanProperty());
-        $this->assertNull($object->getDateProperty());
-        $this->assertNull($object->getIntegerProperty());
-        $this->assertNull($object->getStringProperty());
-        $this->assertEquals(array('a', 'b', 'c', 1, 2, 3), $object->getArrayProperty());
+        self::assertNotNull($object);
+        self::assertNull($object->getBooleanProperty());
+        self::assertNull($object->getDateProperty());
+        self::assertNull($object->getIntegerProperty());
+        self::assertNull($object->getStringProperty());
+        self::assertEquals(array('a', 'b', 'c', 1, 2, 3), $object->getArrayProperty());
     }
 
     public function testDeserializeUnconfiguredFloatProperty()
@@ -161,8 +161,8 @@ class DeserializeTest extends TestCase
         /** @var TestObject $object */
         $object = $serializer->deserialize($json, TestObject::class);
 
-        $this->assertNotNull($object);
-        $this->assertEquals(1.2e-5, $object->getFloatProperty());
+        self::assertNotNull($object);
+        self::assertEquals(1.2e-5, $object->getFloatProperty());
     }
 
     public function testDeserializeConfiguredFloatProperty()
@@ -174,8 +174,8 @@ class DeserializeTest extends TestCase
         /** @var TestObject $object */
         $object = $serializer->deserialize($json, TestObject::class);
 
-        $this->assertNotNull($object);
-        $this->assertEquals(1.2e-5, $object->getFloatProperty());
+        self::assertNotNull($object);
+        self::assertEquals(1.2e-5, $object->getFloatProperty());
     }
 
     public function testDeserializeMultipleProperties()
@@ -188,10 +188,10 @@ class DeserializeTest extends TestCase
         $serializer = new JsonSerializer();
         $object = $serializer->deserialize($json, TestObject::class);
 
-        $this->assertNotNull($object);
-        $this->assertEquals('foo', $object->getStringProperty());
-        $this->assertEquals(42, $object->getIntegerProperty());
-        $this->assertTrue($object->getBooleanProperty());https://duckduckgo.com/?q=php+date+parse&t=canonical
+        self::assertNotNull($object);
+        self::assertEquals('foo', $object->getStringProperty());
+        self::assertEquals(42, $object->getIntegerProperty());
+        self::assertTrue($object->getBooleanProperty());https://duckduckgo.com/?q=php+date+parse&t=canonical
     }
 
     public function testDeserializeNestedObjectWithoutConfiguration()
@@ -212,12 +212,12 @@ class DeserializeTest extends TestCase
         /** @var TestObject $object */
         $object = $serializer->deserialize($json, TestObject::class);
 
-        $this->assertNotNull($object);
-        $this->assertTrue($object instanceof TestObject);
-        $this->assertEquals('foo', $object->getStringProperty());
-        $this->assertEquals(42, $object->getIntegerProperty());
-        $this->assertTrue($object->getBooleanProperty());
-        $this->assertEquals(array(
+        self::assertNotNull($object);
+        self::assertTrue($object instanceof TestObject);
+        self::assertEquals('foo', $object->getStringProperty());
+        self::assertEquals(42, $object->getIntegerProperty());
+        self::assertTrue($object->getBooleanProperty());
+        self::assertEquals(array(
             'stringProperty' => 'foo',
             'integerProperty' => 42,
             'booleanProperty' => false
@@ -243,18 +243,18 @@ class DeserializeTest extends TestCase
         /** @var TestObject $object */
         $object = $serializer->deserialize($json, TestObject::class);
 
-        $this->assertNotNull($object);
-        $this->assertTrue($object instanceof TestObject);
-        $this->assertEquals('foo', $object->getStringProperty());
-        $this->assertEquals(42, $object->getIntegerProperty());
-        $this->assertTrue($object->getBooleanProperty());
+        self::assertNotNull($object);
+        self::assertTrue($object instanceof TestObject);
+        self::assertEquals('foo', $object->getStringProperty());
+        self::assertEquals(42, $object->getIntegerProperty());
+        self::assertTrue($object->getBooleanProperty());
 
         $nestedObject = $object->getNestedObject();
-        $this->assertNotNull($nestedObject);
-        $this->assertTrue($nestedObject instanceof NestedObject);
-        $this->assertEquals('bar', $nestedObject->getStringProperty());
-        $this->assertEquals(21, $nestedObject->getIntegerProperty());
-        $this->assertFalse($nestedObject->getBooleanProperty());
+        self::assertNotNull($nestedObject);
+        self::assertTrue($nestedObject instanceof NestedObject);
+        self::assertEquals('bar', $nestedObject->getStringProperty());
+        self::assertEquals(21, $nestedObject->getIntegerProperty());
+        self::assertFalse($nestedObject->getBooleanProperty());
     }
 
     public function testGetClassnameFromCallable()
@@ -268,12 +268,12 @@ class DeserializeTest extends TestCase
             return TestObject::class;
         });
 
-        $this->assertNotNull($object);
-        $this->assertTrue($called);
-        $this->assertTrue($object instanceof TestObject);
-        $this->assertEquals('foo', $object->getStringProperty());
-        $this->assertNull($object->getIntegerProperty());
-        $this->assertNull($object->getBooleanProperty());
+        self::assertNotNull($object);
+        self::assertTrue($called);
+        self::assertTrue($object instanceof TestObject);
+        self::assertEquals('foo', $object->getStringProperty());
+        self::assertNull($object->getIntegerProperty());
+        self::assertNull($object->getBooleanProperty());
     }
 
     public function testOnlyStringOrCallableAccepted()
@@ -400,10 +400,10 @@ class DeserializeTest extends TestCase
         /** @var TestObject $object */
         $object = $serializer->deserialize($json, TestObject::class);
 
-        $this->assertNotNull($object);
-        $this->assertNotNull($object->getFactoryTestObject());
-        $this->assertTrue($object->getFactoryTestObject() instanceof FactoryTestObject);
-        $this->assertEquals('foobar', $object->getFactoryTestObject()->toString());
+        self::assertNotNull($object);
+        self::assertNotNull($object->getFactoryTestObject());
+        self::assertTrue($object->getFactoryTestObject() instanceof FactoryTestObject);
+        self::assertEquals('foobar', $object->getFactoryTestObject()->toString());
     }
 
     public function testInvalidFactoryMethod()
@@ -447,7 +447,7 @@ class DeserializeTest extends TestCase
         /** @var TestObject $object */
         $object = $serializer->deserialize($json, TestObject::class);
 
-        $this->assertNotNull($object);
-        $this->assertEquals('parentFoo', $object->getParentStringProperty());
+        self::assertNotNull($object);
+        self::assertEquals('parentFoo', $object->getParentStringProperty());
     }
 }
