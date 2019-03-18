@@ -21,6 +21,9 @@ class TestObject extends ParentTestObject
      */
     private $dateProperty;
 
+    /** @var \DateTimeImmutable */
+    private $immutableDateProperty;
+
     /**
      * @var float
      */
@@ -92,6 +95,22 @@ class TestObject extends ParentTestObject
     public function setDateProperty(\DateTime $dateProperty): void
     {
         $this->dateProperty = $dateProperty;
+    }
+
+    /**
+     * @return \DateTimeImmutable
+     */
+    public function getImmutableDateProperty()
+    {
+        return $this->immutableDateProperty;
+    }
+
+    /**
+     * @param \DateTimeImmutable $immutableDateProperty
+     */
+    public function setImmutableDateProperty(\DateTimeImmutable $immutableDateProperty): void
+    {
+        $this->immutableDateProperty = $immutableDateProperty;
     }
 
     /**

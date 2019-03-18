@@ -71,6 +71,17 @@ class SerializeTest extends TestCase
         $this->assertEquals('{"dateProperty":{"date":"2018-11-01 10:49:53.000000","timezone_type":2,"timezone":"Z"}}', $json);
     }
 
+    public function testSerializeUnconfiguredImmutableDateProperty()
+    {
+        $object = new TestObject();
+        $object->setImmutableDateProperty(new \DateTimeImmutable('01-11-2018 10:49:53Z'));
+
+        $serializer = new JsonSerializer();
+        $json = $serializer->serialize($object);
+
+        $this->assertEquals('{"immutableDateProperty":{"date":"2018-11-01 10:49:53.000000","timezone_type":2,"timezone":"Z"}}', $json);
+    }
+
     public function testSerializeConfiguredDateProperty()
     {
         $object = new TestObject();

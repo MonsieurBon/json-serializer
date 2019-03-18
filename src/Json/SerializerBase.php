@@ -14,11 +14,13 @@ class SerializerBase
     protected const TYPE = 'type';
     protected const DATE_FORMAT = 'dateFormat';
     protected const FACTORY_METHOD = 'factoryMethod';
+    protected const MUTABLE = 'mutable';
 
     private const DEFAULT_CONFIG = array(
         self::TYPE => null,
         self::DATE_FORMAT => 'd-m-Y H:i:s\Z',
-        self::FACTORY_METHOD => null
+        self::FACTORY_METHOD => null,
+        self::MUTABLE => false
     );
 
     private $configuration;

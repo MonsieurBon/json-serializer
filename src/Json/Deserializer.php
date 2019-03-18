@@ -87,7 +87,8 @@ class Deserializer extends SerializerBase
                     break;
                 case 'date':
                     $format = $propertyConfig[self::DATE_FORMAT];
-                    $sanitizedValue = $this->getDateValue($value, $format);
+                    $mutable = $propertyConfig[self::MUTABLE];
+                    $sanitizedValue = $this->getDateValue($value, $format, $mutable);
                     break;
                 case 'float':
                     $sanitizedValue = $this->getFloatValue($value);
@@ -136,12 +137,18 @@ class Deserializer extends SerializerBase
 
     /**
      * @param $value
-     * @return \DateTime
+     * @param $format
+     * @param bool $mutable
+     * @return \DateTimeInterface
      * @throws DeserializingException
      */
-    private function getDateValue($value, $format)
+    private function getDateValue($value, $format, $mutable = false): \DateTimeInterface
     {
-        $date = \DateTime::createFromFormat($format, $value);
+        if ($mutable) {
+            $date = \DateTime::createFromFormat($format, $value);
+        } else {
+            $date = \DateTimeImmutable::createFromFormat($format, $value);
+        }
 
         if (!$date) {
             throw new DeserializingException(self::INVALID_VALUE_FOR_PROPERTY_OF_TYPE . ' date: ' . print_r($value, true));

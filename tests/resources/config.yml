@@ -4,6 +4,10 @@ PJS\Tests\Objects\TestObject:
   dateProperty:
     type: 'date'
     dateFormat: 'Y-m-d\TH:i:s\Z'
+    mutable: true
+  immutableDateProperty:
+    type: 'date'
+    dateFormat: 'Y-m-d\TH:i:s\Z'
   floatProperty: 'float'
   integerProperty: 'integer'
   stringProperty: 'string'

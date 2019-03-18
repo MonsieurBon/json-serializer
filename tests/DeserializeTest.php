@@ -98,7 +98,26 @@ class DeserializeTest extends TestCase
         $this->assertNull($object->getStringProperty());
         $this->assertNull($object->getIntegerProperty());
         $this->assertNull($object->getBooleanProperty());
+        $this->assertTrue($object->getDateProperty() instanceof \DateTime);
         $this->assertEquals(1541069393, $object->getDateProperty()->getTimestamp());
+    }
+
+    public function testDeserializeConfiguredImmutableDateProperty()
+    {
+        $json = json_encode(array('immutableDateProperty' => '2018-11-01T10:49:53Z'));
+        $serializer = new JsonSerializer();
+        $serializer->configure(__DIR__ . '/resources/config.yml');
+
+        /** @var TestObject $object */
+        $object = $serializer->deserialize($json, TestObject::class);
+
+        $this->assertNotNull($object);
+        $this->assertNull($object->getStringProperty());
+        $this->assertNull($object->getIntegerProperty());
+        $this->assertNull($object->getBooleanProperty());
+        $this->assertNull($object->getDateProperty());
+        $this->assertTrue($object->getImmutableDateProperty() instanceof \DateTimeImmutable);
+        $this->assertEquals(1541069393, $object->getImmutableDateProperty()->getTimestamp());
     }
 
     public function testDeserializeUnconfiguredArrayProperty()
