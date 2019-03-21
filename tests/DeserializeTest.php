@@ -178,6 +178,21 @@ class DeserializeTest extends TestCase
         self::assertEquals(1.2e-5, $object->getFloatProperty());
     }
 
+    public function testDeserializeAliasProperty()
+    {
+        $json = json_encode(array('aliasProperty' => 'foo'));
+
+        $serializer = new JsonSerializer();
+        $serializer->configure(__DIR__ . '/resources/config.yml');
+
+        $object = $serializer->deserialize($json, TestObject::class);
+
+        self::assertNotNull($object);
+        self::assertEquals('foo', $object->getStringProperty());
+        self::assertNull($object->getIntegerProperty());
+        self::assertNull($object->getBooleanProperty());
+    }
+
     public function testDeserializeMultipleProperties()
     {
         $json = json_encode(array(

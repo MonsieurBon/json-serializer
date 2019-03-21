@@ -11,4 +11,7 @@ PJS\Tests\Objects\TestObject:
   floatProperty: 'float'
   integerProperty: 'integer'
   stringProperty: 'string'
+  aliasProperty:
+    type: 'string'
+    propertyName: 'stringProperty'
   nestedObject: 'PJS\Tests\Objects\NestedObject'

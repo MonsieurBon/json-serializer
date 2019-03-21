@@ -15,12 +15,14 @@ class SerializerBase
     protected const DATE_FORMAT = 'dateFormat';
     protected const FACTORY_METHOD = 'factoryMethod';
     protected const MUTABLE = 'mutable';
+    protected const PROPERTY_NAME = 'propertyName';
 
     private const DEFAULT_CONFIG = array(
         self::TYPE => null,
         self::DATE_FORMAT => 'd-m-Y H:i:s\Z',
         self::FACTORY_METHOD => null,
-        self::MUTABLE => false
+        self::MUTABLE => false,
+        self::PROPERTY_NAME => null
     );
 
     private $configuration;

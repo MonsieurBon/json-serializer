@@ -103,7 +103,7 @@ class Deserializer extends SerializerBase
                     $sanitizedValue = $this->arrayToObject($value, $propertyType, $propertyConfig[self::FACTORY_METHOD]);
             }
 
-            $this->setProperty($reflection, $propertyName, $object, $sanitizedValue);
+            $this->setProperty($reflection, $propertyConfig[self::PROPERTY_NAME] ?? $propertyName, $object, $sanitizedValue);
         }
 
         return $object;
